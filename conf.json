@@ -1,0 +1,19 @@
+{
+    "benchmarks": {
+        "cpu": {
+            "sysbench": {
+                "number_of_threads": ["1", "2", "4","8"],
+                "max_prime": "25000"
+            }
+        },
+
+        "network": {
+        },
+
+        "memory": {
+        },
+
+        "disk": {
+        }
+    }
+}

@@ -1,13 +1,14 @@
 import sys, os, time, atexit
 from signal import SIGTERM
 
-class Daemon:
+class Daemon(object):
     """
     A generic daemon class.
 
     Usage: subclass the Daemon class and override the run() method
     """
     def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
+        print "helloSUPER"
         self.stdin = stdin
         self.stdout = sys.__stdout__
         self.stderr = stderr
