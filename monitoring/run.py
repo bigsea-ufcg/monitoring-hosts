@@ -16,7 +16,8 @@ def command_line_parser():
     start.add_argument('-dir', '--directory', help='The directory path \
             where will be the configuration file.', required=True)
     start.add_argument('-time', '--time_interval', help='Number of seconds \
-            to wait before run the Monitoring Daemon again.', required=True)
+            to wait before run the Monitoring Daemon again.(Integer)',
+            required=True)
     start.add_argument('-conf','--configuration', help='Filename with all \
             benchmark information, if not used will try to find a file named \
             conf.json in the directory of the argument -dir/--directory',
@@ -26,7 +27,8 @@ def command_line_parser():
     restart.add_argument('-dir', '--directory', help='The directory path \
             where will be the configuration file.', required=True)
     restart.add_argument('-time', '--time_interval', help='Number of seconds \
-            to wait before run the Monitoring Daemon again.', required=True)
+            to wait before run the Monitoring Daemon again. (Integer)',
+            required=True)
     restart.add_argument('-conf','--configuration', help='Filename with all \
             benchmark information, if not used will try to find a file named \
             conf.json in the directory of the argument -dir/--directory',
@@ -34,13 +36,18 @@ def command_line_parser():
 
     stop = subparsers.add_parser("stop", help='Stops %(prog)s daemon',
             description='Stops the daemon if it ts currently running.')
+    stop.add_argument('-dir', '--directory', help='The directory path \
+            where will be the configuration file.', required=True)
 
+    stop.add_argument('-conf','--configuration', help='Filename with all \
+            benchmark information, if not used will try to find a file named \
+            conf.json in the directory of the argument -dir/--directory',
+            required=False)
     return parser
 
 def validate_cmd(arguments):
-    if arguments.operation == 'stop':
-        return arguments
-    elif arguments.operation == 'start' or arguments.operation == 'restart':
+    if (arguments.operation == 'start' or arguments.operation == 'restart' or
+            arguments.operation == 'stop'):
         try:
             if os.path.isdir(arguments.directory) and os.path.exists(
                     arguments.directory):
@@ -50,7 +57,13 @@ def validate_cmd(arguments):
                     directory_name =  arguments.directory[:-1]
 
                 if arguments.configuration is not None:
-                    file_path = directory_name + '/' + arguments.configuration
+                    if arguments.configuration[0] == '/':
+                        file_path = (directory_name + arguments.configuration)
+                    else:
+                        file_path = (directory_name + '/' +
+                                arguments.configuration)
+
+
                     if os.path.isfile(file_path):
                         arguments.configuration = file_path
                     else:
@@ -69,18 +82,29 @@ def validate_cmd(arguments):
             else:
                 message = ("Can't find %s directory" % arguments.directory)
                 raise Exception(message)
+
+            if hasattr(arguments, 'time_interval'):
+                if not arguments.time_interval.isdigit():
+                    raise Exception("time/time_interval should be integer")
+
             return arguments
         except Exception as e:
             print e
             sys.exit(2)
     else:
-        return arguments
+        print "Unknown command"
+        sys.exit(2)
 
 
 def main():
     cmd = command_line_parser()
     arguments = validate_cmd(cmd.parse_args())
-    monitoring = MonitoringDaemon('monitoring_daemon.pid',
+    if arguments.directory[-1] == '/':
+        pid = arguments.directory + 'monitoring_daemon.pid'
+    else:
+        pid = arguments.directory + '/monitoring_daemon.pid'
+
+    monitoring = MonitoringDaemon(pid,
             arguments.configuration)
 
     if arguments.operation == 'start':
