@@ -86,6 +86,10 @@ def validate_cmd(arguments):
             if hasattr(arguments, 'time_interval'):
                 if not arguments.time_interval.isdigit():
                     raise Exception("time/time_interval should be integer")
+                else:
+                    arguments.time_interval = float(arguments.time_interval)
+            else:
+                arguments.time_interval = 0
 
             return arguments
         except Exception as e:
@@ -105,7 +109,7 @@ def main():
         pid = arguments.directory + '/monitoring_daemon.pid'
 
     monitoring = MonitoringDaemon(pid,
-            arguments.configuration)
+            arguments.configuration, arguments.time_interval)
 
     if arguments.operation == 'start':
         monitoring.start()

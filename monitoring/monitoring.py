@@ -8,8 +8,9 @@ from benchmarks.sysbench import SysbenchCPU
 
 class MonitoringDaemon(Daemon):
 
-    def __init__(self, pidfile, configuration):
+    def __init__(self, pidfile, configuration, sleep):
         try:
+            self.sleep = sleep
             with open(configuration) as conf:
                 self.configuration = json.load(conf)
                 conf.close()
@@ -46,6 +47,12 @@ class MonitoringDaemon(Daemon):
         selected_benchmarks = self.get_benchmarks()
         timestamp_begin_execution = datetime.now().strftime(
                 "%Y-%m-%dT%H:%M:%S")
-        if selected_benchmarks.has_key('cpu'):
-            self.run_cpu(timestamp_begin_execution, selected_benchmarks['cpu'])
+        while True:
+            timestamp_begin_execution = datetime.now().strftime(
+                    "%Y-%m-%dT%H:%M:%S" )
+            if selected_benchmarks.has_key('cpu'):
+                self.run_cpu(timestamp_begin_execution,
+                        selected_benchmarks['cpu'])
+            print "waitting %s seconds before running again" % self.sleep
+            time.sleep(self.sleep)
 
