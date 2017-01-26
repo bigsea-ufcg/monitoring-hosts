@@ -2,16 +2,17 @@
 
 Daemon that monitors any physical host
 
-### Benchmarks used
+## Benchmarks used
 
 - Sysbench [CPU, Memory]
 - dd [disk]
 
-### Usage
+## Usage
 
-* Help command
+- Help command
 
-```ubuntu@host:~/monitoring-hosts/monitoring$ python run.py -h
+```ubuntu@host:~/monitoring-hosts/monitoring$ python run.py -h```
+```
 usage: python monitoring.py [-h] {start,restart,stop} ...
 
 Monitoring Host Daemon
