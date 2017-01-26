@@ -11,7 +11,7 @@ Daemon that monitors any physical host
 
 * Help command
 
-``` ubuntu@host:~/monitoring-hosts/monitoring$ python run.py -h
+```ubuntu@host:~/monitoring-hosts/monitoring$ python run.py -h
 usage: python monitoring.py [-h] {start,restart,stop} ...
 
 Monitoring Host Daemon
@@ -29,7 +29,7 @@ optional arguments:
 
 * Start command
 
-``` ubuntu@host:~/monitoring-hosts/monitoring$ python run.py start -h
+```ubuntu@host:~/monitoring-hosts/monitoring$ python run.py start -h
 usage: python monitoring.py start [-h] -dir DIRECTORY -time TIME_INTERVAL
                                   [-conf CONFIGURATION]
 
@@ -48,7 +48,7 @@ optional arguments:
 ```
 
 * Stop command
-``` ubuntu@host1:~/monitoring-hosts/monitoring$ python run.py stop -h
+```ubuntu@host1:~/monitoring-hosts/monitoring$ python run.py stop -h
 usage: python monitoring.py stop [-h] -dir DIRECTORY [-conf CONFIGURATION]
 
 Stops the daemon if it ts currently running.
@@ -65,7 +65,7 @@ optional arguments:
 ```
 
 * Restart command
-``` ubuntu@host1:~/monitoring-hosts/monitoring$ python run.py restart -h
+```ubuntu@host1:~/monitoring-hosts/monitoring$ python run.py restart -h
 usage: python monitoring.py restart [-h] -dir DIRECTORY -time TIME_INTERVAL
                                     [-conf CONFIGURATION]
 
