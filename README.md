@@ -50,6 +50,7 @@ optional arguments:
 ```
 
 * Stop command
+
 ```ubuntu@host1:~/monitoring-hosts/monitoring$ python run.py stop -h```
 ```
 usage: python monitoring.py stop [-h] -dir DIRECTORY [-conf CONFIGURATION]
@@ -68,6 +69,7 @@ optional arguments:
 ```
 
 * Restart command
+
 ```ubuntu@host1:~/monitoring-hosts/monitoring$ python run.py restart -h```
 ```
 usage: python monitoring.py restart [-h] -dir DIRECTORY -time TIME_INTERVAL
