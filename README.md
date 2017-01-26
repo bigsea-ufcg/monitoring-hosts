@@ -9,9 +9,9 @@ Daemon that monitors any physical host
 
 ### Usage
 
-* Help
-```
-ubuntu@host:~/monitoring-hosts/monitoring$ python run.py -h
+* Help command
+
+``` ubuntu@host:~/monitoring-hosts/monitoring$ python run.py -h
 
 usage: python monitoring.py [-h] {start,restart,stop} ...
 
@@ -29,7 +29,7 @@ optional arguments:
 
 ```
 
-* Start
+* Start command
 ```
 ubuntu@host:~/monitoring-hosts/monitoring$ python run.py start -h
 usage: python monitoring.py start [-h] -dir DIRECTORY -time TIME_INTERVAL
@@ -50,7 +50,7 @@ optional arguments:
 
 ```
 
-* Stop
+* Stop command
 ```
 ubuntu@host1:~/monitoring-hosts/monitoring$ python run.py stop -h
 usage: python monitoring.py stop [-h] -dir DIRECTORY [-conf CONFIGURATION]
@@ -68,7 +68,7 @@ optional arguments:
                         directory of the argument -dir/--directory
 ```
 
-* Restart
+* Restart command
 ```
 ubuntu@host1:~/monitoring-hosts/monitoring$ python run.py restart -h
 usage: python monitoring.py restart [-h] -dir DIRECTORY -time TIME_INTERVAL
