@@ -1,5 +1,9 @@
-import sys, os, time, atexit
+import sys
+import os
+import time
+import atexit
 from signal import SIGTERM
+
 
 class Daemon(object):
     """
@@ -93,6 +97,7 @@ class Daemon(object):
             pf.close()
         except IOError as io:
             pid = None
+            print str(io)
 
         if not pid:
             message = "pidfile %s does not exist. Daemon not running?\n"

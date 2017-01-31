@@ -5,7 +5,9 @@ import time
 from daemon import Daemon
 from datetime import datetime
 from benchmarks.sysbench import SysbenchCPU, SysbenchMemory
+from benchmarks.dd import DDdisk
 from threading import Thread
+
 
 class MonitoringDaemon(Daemon):
 
@@ -36,7 +38,7 @@ class MonitoringDaemon(Daemon):
         print 'start run_cpu'
         if args.has_key('sysbench'):
             if (args['sysbench'].has_key('max_prime') and
-                    args['sysbench'].has_key('number_of_threads') ):
+                    args['sysbench'].has_key('number_of_threads')):
 
                 for num_thread in args['sysbench']['number_of_threads']:
                     print num_thread
@@ -74,7 +76,7 @@ class MonitoringDaemon(Daemon):
         while True:
             timestamp_begin = datetime.now()
             timestamp_begin_execution = timestamp_begin.strftime(
-                    "%Y-%m-%dT%H:%M:%S" )
+                    "%Y-%m-%dT%H:%M:%S")
             if selected_benchmarks.has_key('cpu'):
                 Thread(target=self.run_cpu(timestamp_begin_execution,
                     selected_benchmarks['cpu']))

@@ -1,9 +1,9 @@
 import argparse
 import os
 import sys
-import time
 
 from monitoring import MonitoringDaemon
+
 
 def command_line_parser():
     parser = argparse.ArgumentParser(prog='python monitoring.py',
@@ -18,7 +18,7 @@ def command_line_parser():
     start.add_argument('-time', '--time_interval', help='Number of seconds \
             to wait before run the Monitoring Daemon again.(Integer)',
             required=True)
-    start.add_argument('-conf','--configuration', help='Filename with all \
+    start.add_argument('-conf', '--configuration', help='Filename with all \
             benchmark information, if not used will try to find a file named \
             conf.json in the directory of the argument -dir/--directory',
             required=False)
@@ -29,7 +29,7 @@ def command_line_parser():
     restart.add_argument('-time', '--time_interval', help='Number of seconds \
             to wait before run the Monitoring Daemon again. (Integer)',
             required=True)
-    restart.add_argument('-conf','--configuration', help='Filename with all \
+    restart.add_argument('-conf', '--configuration', help='Filename with all \
             benchmark information, if not used will try to find a file named \
             conf.json in the directory of the argument -dir/--directory',
             required=False)
@@ -39,11 +39,12 @@ def command_line_parser():
     stop.add_argument('-dir', '--directory', help='The directory path \
             where will be the configuration file.', required=True)
 
-    stop.add_argument('-conf','--configuration', help='Filename with all \
+    stop.add_argument('-conf', '--configuration', help='Filename with all \
             benchmark information, if not used will try to find a file named \
             conf.json in the directory of the argument -dir/--directory',
             required=False)
     return parser
+
 
 def validate_cmd(arguments):
     if (arguments.operation == 'start' or arguments.operation == 'restart' or
@@ -62,7 +63,6 @@ def validate_cmd(arguments):
                     else:
                         file_path = (directory_name + '/' +
                                 arguments.configuration)
-
 
                     if os.path.isfile(file_path):
                         arguments.configuration = file_path
@@ -109,7 +109,7 @@ def main():
         pid = arguments.directory + '/monitoring_daemon.pid'
 
     monitoring = MonitoringDaemon(pid,
-            arguments.configuration, arguments.time_interval)
+        arguments.configuration, arguments.time_interval)
 
     if arguments.operation == 'start':
         monitoring.start()

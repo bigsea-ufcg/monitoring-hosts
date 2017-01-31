@@ -1,6 +1,5 @@
 {
-    "configuration_dir": "/local/nfs/workspace/monitoring-hosts/sample"
-    "output_dir": "/local/nfs/workspace/monitoring-hosts/output",
+    "output_dir": "/monitoring-hosts/output",
     "benchmarks": {
         "cpu": {
             "sysbench": {
@@ -15,15 +14,9 @@
         },
 
         "memory": {
-            "sysbench": {
-                "block_size": "1G",
-                "operation": ["read", "write"],
-                "acess": ["seq", "rnd"]
-            }
         },
 
         "disk": {
-            "dd": {}
         }
     }
 }
