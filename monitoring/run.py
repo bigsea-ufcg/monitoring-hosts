@@ -7,42 +7,43 @@ from monitoring import MonitoringDaemon
 
 def command_line_parser():
     parser = argparse.ArgumentParser(prog='python monitoring.py',
-            description='Monitoring Host Daemon')
-    subparsers = parser.add_subparsers(help= 'Operation with the monitoring \
+                                     description='Monitoring Host Daemon')
+    subparsers = parser.add_subparsers(help='Operation with the monitoring \
             host daemon. Accepts any of these values: start, stop, restart',
-            dest='operation')
+                                       dest='operation')
 
     start = subparsers.add_parser("start", help='Starts %(prog)s daemon')
     start.add_argument('-dir', '--directory', help='The directory path \
             where will be the configuration file.', required=True)
     start.add_argument('-time', '--time_interval', help='Number of seconds \
             to wait before run the Monitoring Daemon again.(Integer)',
-            required=True)
+                       required=True)
     start.add_argument('-conf', '--configuration', help='Filename with all \
             benchmark information, if not used will try to find a file named \
             conf.json in the directory of the argument -dir/--directory',
-            required=False)
+                       required=False)
 
     restart = subparsers.add_parser("restart", help='Restarts %(prog)s daemon')
     restart.add_argument('-dir', '--directory', help='The directory path \
             where will be the configuration file.', required=True)
     restart.add_argument('-time', '--time_interval', help='Number of seconds \
             to wait before run the Monitoring Daemon again. (Integer)',
-            required=True)
+                         required=True)
     restart.add_argument('-conf', '--configuration', help='Filename with all \
             benchmark information, if not used will try to find a file named \
             conf.json in the directory of the argument -dir/--directory',
-            required=False)
+                         required=False)
 
     stop = subparsers.add_parser("stop", help='Stops %(prog)s daemon',
-            description='Stops the daemon if it ts currently running.')
+                                 description='Stops the daemon if it is \
+                                         currently running.')
     stop.add_argument('-dir', '--directory', help='The directory path \
             where will be the configuration file.', required=True)
 
     stop.add_argument('-conf', '--configuration', help='Filename with all \
             benchmark information, if not used will try to find a file named \
             conf.json in the directory of the argument -dir/--directory',
-            required=False)
+                      required=False)
     return parser
 
 
@@ -55,20 +56,20 @@ def validate_cmd(arguments):
 
                 directory_name = arguments.directory
                 if arguments.directory[-1] == '/':
-                    directory_name =  arguments.directory[:-1]
+                    directory_name = arguments.directory[:-1]
 
                 if arguments.configuration is not None:
                     if arguments.configuration[0] == '/':
                         file_path = (directory_name + arguments.configuration)
                     else:
                         file_path = (directory_name + '/' +
-                                arguments.configuration)
+                                     arguments.configuration)
 
                     if os.path.isfile(file_path):
                         arguments.configuration = file_path
                     else:
                         message = ("Can't find %s in %s directory" %
-                                (arguments.configuration, directory_name))
+                                   (arguments.configuration, directory_name))
                         raise Exception(message)
 
                 else:
@@ -77,7 +78,7 @@ def validate_cmd(arguments):
                         arguments.configuration = file_path
                     else:
                         message = ("Can't find conf.json in %s directory" %
-                                directory_name)
+                                   directory_name)
                         raise Exception(message)
             else:
                 message = ("Can't find %s directory" % arguments.directory)
@@ -109,7 +110,8 @@ def main():
         pid = arguments.directory + '/monitoring_daemon.pid'
 
     monitoring = MonitoringDaemon(pid,
-        arguments.configuration, arguments.time_interval)
+                                  arguments.configuration,
+                                  arguments.time_interval)
 
     if arguments.operation == 'start':
         monitoring.start()

@@ -25,7 +25,7 @@ class MonitoringDaemon(Daemon):
 
     def get_benchmarks(self):
         selected = {}
-        if self.configuration.has_key('benchmarks'):
+        if 'benchmarks' in self.configuration:
             all_benchmarks = self.configuration['benchmarks']
             for bench_type in all_benchmarks:
                 if any(all_benchmarks[bench_type]):
@@ -36,35 +36,35 @@ class MonitoringDaemon(Daemon):
 
     def run_cpu(self, timestamp, args):
         print 'start run_cpu'
-        if args.has_key('sysbench'):
-            if (args['sysbench'].has_key('max_prime') and
-                    args['sysbench'].has_key('number_of_threads')):
+        if 'sysbench' in args:
+            if ('max_prime' in args['sysbench'] and
+                    'number_of_threads' in args['sysbench']):
 
                 for num_thread in args['sysbench']['number_of_threads']:
                     print num_thread
                     syscpu = SysbenchCPU(num_thread,
-                            args['sysbench']['max_prime'], timestamp,
-                            self.output_dir)
+                                         args['sysbench']['max_prime'],
+                                         timestamp, self.output_dir)
                     syscpu.execute()
         print 'end run_cpu'
 
     def run_memory(self, timestamp, args):
         print 'start run_memory'
-        if args.has_key('sysbench'):
-            if (args['sysbench'].has_key("block_size") and
-                    args['sysbench'].has_key("operation") and
-                    args['sysbench'].has_key("acess")):
+        if 'sysbench' in args:
+            if ("block_size" in args['sysbench'] and
+                    "operation" in args['sysbench'] and
+                    "acess" in args['sysbench']):
                 for acess_type in args['sysbench']['acess']:
                     for op in args['sysbench']['operation']:
                         sysmem = SysbenchMemory(acess_type, op,
-                                args['sysbench']['block_size'], timestamp,
-                                self.output_dir)
+                                                args['sysbench']['block_size'],
+                                                timestamp, self.output_dir)
                         sysmem.execute()
         print 'end run_memory'
 
     def run_disk(self, timestamp, args):
         print 'start run_disk'
-        if args.has_key('dd'):
+        if 'dd' in args:
             dd_benchmark = DDdisk(timestamp, self.output_dir)
             dd_benchmark.execute()
         print 'end run_disk'
@@ -72,17 +72,16 @@ class MonitoringDaemon(Daemon):
     def run(self):
         selected_benchmarks = self.get_benchmarks()
         timestamp_begin_execution = datetime.now().strftime(
-                "%Y-%m-%dT%H:%M:%S")
+            "%Y-%m-%dT%H:%M:%S")
         while True:
             timestamp_begin = datetime.now()
             timestamp_begin_execution = timestamp_begin.strftime(
-                    "%Y-%m-%dT%H:%M:%S")
-            if selected_benchmarks.has_key('cpu'):
+                "%Y-%m-%dT%H:%M:%S")
+            if 'cpu' in selected_benchmarks:
                 Thread(target=self.run_cpu(timestamp_begin_execution,
-                    selected_benchmarks['cpu']))
-            if selected_benchmarks.has_key('disk'):
+                       selected_benchmarks['cpu']))
+            if 'disk' in selected_benchmarks:
                 Thread(target=self.run_disk(timestamp_begin_execution,
-                    selected_benchmarks['disk']))
+                       selected_benchmarks['disk']))
             print "waitting %s seconds before running again" % self.sleep
             time.sleep(self.sleep)
-
