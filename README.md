@@ -88,3 +88,9 @@ optional arguments:
                         will try to find a file named conf.json in the
                         directory of the argument -dir/--directory
 ```
+
+* Examples
+
+```root@host:~# python monitoring/run.py start -dir /root/monitoring-hosts/sample/ -time 1800```
+
+```root@hots:~# python monitoring/run.py stop -dir /root/monitoring-hosts/sample/ ```
