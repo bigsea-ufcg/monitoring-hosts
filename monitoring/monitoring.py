@@ -25,6 +25,7 @@ class MonitoringDaemon(Daemon):
             except Exception as path_ex:
                 print path_ex.message
                 sys.exit(1)
+            self.execution = self.configuration['execution']
             super(MonitoringDaemon, self).__init__(pidfile)
         except Exception as e:
             print e.message
@@ -84,13 +85,21 @@ class MonitoringDaemon(Daemon):
             timestamp_begin = datetime.now()
             timestamp_begin_execution = timestamp_begin.strftime(
                 "%Y-%m-%dT%H:%M:%S")
-            if 'cpu' in selected_benchmarks:
-                thread.start_new_thread(self.run_cpu,
-                                        (timestamp_begin_execution,
-                                         selected_benchmarks['cpu']))
-            if 'disk' in selected_benchmarks:
-                thread.start_new_thread(self.run_disk,
-                                        (timestamp_begin_execution,
-                                         selected_benchmarks['disk']))
+            if self.execution == 'parallel':
+                if 'cpu' in selected_benchmarks:
+                    thread.start_new_thread(self.run_cpu,
+                                            (timestamp_begin_execution,
+                                             selected_benchmarks['cpu']))
+                if 'disk' in selected_benchmarks:
+                    thread.start_new_thread(self.run_disk,
+                                            (timestamp_begin_execution,
+                                             selected_benchmarks['disk']))
+            else:
+                if 'cpu' in selected_benchmarks:
+                    self.run_cpu(timestamp_begin_execution,
+                                 selected_benchmarks['cpu'])
+                if 'disk' in selected_benchmarks:
+                    self.run_disk(timestamp_begin_execution,
+                                  selected_benchmarks['disk'])
             print "waitting %s seconds before running again" % self.sleep
             time.sleep(self.sleep)
