@@ -1,3 +1,4 @@
+import os
 import json
 import sys
 import time
@@ -17,7 +18,13 @@ class MonitoringDaemon(Daemon):
             with open(configuration) as conf:
                 self.configuration = json.load(conf)
                 conf.close()
-            self.output_dir = self.configuration['output_dir']
+            try:
+                if not os.path.exists(self.configuration['output_dir']):
+                    os.mkdir(self.configuration['output_dir'])
+                self.output_dir = self.configuration['output_dir']
+            except Exception as path_ex:
+                print path_ex.message
+                sys.exit(1)
             super(MonitoringDaemon, self).__init__(pidfile)
         except Exception as e:
             print e.message
