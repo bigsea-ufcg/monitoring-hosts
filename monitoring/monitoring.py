@@ -20,7 +20,7 @@ class MonitoringDaemon(Daemon):
                 conf.close()
             try:
                 if not os.path.exists(self.configuration['output_dir']):
-                    os.mkdir(self.configuration['output_dir'])
+                    os.makedirs(self.configuration['output_dir'])
                 self.output_dir = self.configuration['output_dir']
             except Exception as path_ex:
                 print path_ex.message
