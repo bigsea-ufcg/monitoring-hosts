@@ -1,9 +1,9 @@
 {
-    "output_dir": "/monitoring-hosts/output",
+    "output_dir": "/tmp/monitoring-hosts",
     "benchmarks": {
         "cpu": {
             "sysbench": {
-                "number_of_threads": ["1", "2", "4", "8"],
+                "number_of_threads": ["8", "4", "2", "1"],
                 "max_prime": "25000"
             },
             "teste": {
@@ -17,6 +17,7 @@
         },
 
         "disk": {
+            "dd": {}
         }
     }
 }

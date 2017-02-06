@@ -2,12 +2,12 @@ import os
 import json
 import sys
 import time
+import thread
 
 from daemon import Daemon
 from datetime import datetime
 from benchmarks.sysbench import SysbenchCPU, SysbenchMemory
 from benchmarks.dd import DDdisk
-from threading import Thread
 
 
 class MonitoringDaemon(Daemon):
@@ -85,10 +85,12 @@ class MonitoringDaemon(Daemon):
             timestamp_begin_execution = timestamp_begin.strftime(
                 "%Y-%m-%dT%H:%M:%S")
             if 'cpu' in selected_benchmarks:
-                Thread(target=self.run_cpu(timestamp_begin_execution,
-                       selected_benchmarks['cpu']))
+                thread.start_new_thread(self.run_cpu,
+                                        (timestamp_begin_execution,
+                                         selected_benchmarks['cpu']))
             if 'disk' in selected_benchmarks:
-                Thread(target=self.run_disk(timestamp_begin_execution,
-                       selected_benchmarks['disk']))
+                thread.start_new_thread(self.run_disk,
+                                        (timestamp_begin_execution,
+                                         selected_benchmarks['disk']))
             print "waitting %s seconds before running again" % self.sleep
             time.sleep(self.sleep)
