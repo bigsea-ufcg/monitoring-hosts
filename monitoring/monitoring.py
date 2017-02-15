@@ -102,4 +102,5 @@ class MonitoringDaemon(Daemon):
                     self.run_disk(timestamp_begin_execution,
                                   selected_benchmarks['disk'])
             print "waitting %s seconds before running again" % self.sleep
+            execution_file = open(self.output_dir+"/"+timestamp_begin_execution, "w")
             time.sleep(self.sleep)

@@ -1,5 +1,5 @@
 {
-    "output_dir": "/tmp/monitoring-hosts",
+    "output_dir": "/tmp/monitoring-hosts/parallel",
     "execution": "parallel",
     "benchmarks": {
         "cpu": {
