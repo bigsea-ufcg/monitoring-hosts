@@ -9,6 +9,36 @@ Daemon that monitors physical hosts
 
 ## Configuration
 
+- No backend
+
+```
+[DEFAULT]
+type=CPU
+name=sysbench
+parameters=/path/sysbench.json
+output_dir=/tmp
+backend=
+```
+
+- Monasca backend
+
+```
+[DEFAULT]
+type=CPU
+name=sysbench
+parameters=/path/sysbench.json
+output_dir=/tmp
+backend=OS_MONASCA
+
+[monasca]
+username=<@username>
+password=<@password>
+project_name=<@project_name>
+auth_url=<@auth_url>
+monasca_api_version=v2_0
+```
+
+
 ## Usage
 
 - Help command
