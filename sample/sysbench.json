@@ -1,0 +1,4 @@
+{
+    "number_of_threads": ["8", "4", "2", "1"],
+    "max_prime": "25000"
+}

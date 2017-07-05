@@ -1,11 +1,13 @@
 # Monitoring Host Daemon
 
-Daemon that monitors any physical host
+Daemon that monitors physical hosts
 
 ## Benchmarks used
 
-- Sysbench [CPU, Memory]
-- dd [disk]
+- Sysbench [CPU]
+
+
+## Configuration
 
 ## Usage
 
@@ -37,16 +39,11 @@ usage: python monitoring.py start [-h] -dir DIRECTORY -time TIME_INTERVAL
 
 optional arguments:
   -h, --help            show this help message and exit
-  -dir DIRECTORY, --directory DIRECTORY
-                        The directory path where will be the configuration
-                        file.
   -time TIME_INTERVAL, --time_interval TIME_INTERVAL
                         Number of seconds to wait before run the Monitoring
                         Daemon again.(Integer)
   -conf CONFIGURATION, --configuration CONFIGURATION
-                        Filename with all benchmark information, if not used
-                        will try to find a file named conf.json in the
-                        directory of the argument -dir/--directory
+                        Filename with all benchmark information
 ```
 
 * Stop command
@@ -59,13 +56,8 @@ Stops the daemon if it ts currently running.
 
 optional arguments:
   -h, --help            show this help message and exit
-  -dir DIRECTORY, --directory DIRECTORY
-                        The directory path where will be the configuration
-                        file.
   -conf CONFIGURATION, --configuration CONFIGURATION
-                        Filename with all benchmark information, if not used
-                        will try to find a file named conf.json in the
-                        directory of the argument -dir/--directory
+                        Filename with all benchmark information
 ```
 
 * Restart command
@@ -77,20 +69,16 @@ usage: python monitoring.py restart [-h] -dir DIRECTORY -time TIME_INTERVAL
 
 optional arguments:
   -h, --help            show this help message and exit
-  -dir DIRECTORY, --directory DIRECTORY
-                        The directory path where will be the configuration
-                        file.
   -time TIME_INTERVAL, --time_interval TIME_INTERVAL
                         Number of seconds to wait before run the Monitoring
                         Daemon again. (Integer)
   -conf CONFIGURATION, --configuration CONFIGURATION
-                        Filename with all benchmark information, if not used
-                        will try to find a file named conf.json in the
-                        directory of the argument -dir/--directory
+                        Filename with all benchmark information
 ```
 
 * Examples
 
-```root@host:~# python monitoring/run.py start -dir /root/monitoring-hosts/sample/ -time 1800```
+```root@host:~# python monitoring/run.py start -conf sample/default.cfg -time 1800```
 
-```root@hots:~# python monitoring/run.py stop -dir /root/monitoring-hosts/sample/ ```
+```root@hots:~# python monitoring/run.py stop -conf sample/default.cfg ```
+
