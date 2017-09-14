@@ -1,31 +1,83 @@
 # Monitoring Host Daemon
 
-Daemon that monitors physical hosts
+Daemon that monitors physical hosts performance
 
 ## Benchmarks used
 
-- Sysbench [CPU]
+- [CPU] [Sysbench](http://manpages.ubuntu.com/manpages/xenial/man1/sysbench.1.html)
 
 
-## Configuration
 
-- No backend
+Installation
+------------
 
+To install the monitoring-hosts daemon you will need a virtual machine with a fresh install environment and with the configuration described below.
+
+**Minimal Server Configuration**
+```
+OS: Ubuntu 14.04
+CPU: 1 core
+Memory: 1G of RAM
+Disk: there is no disk requirements
+```
+
+### Steps
+
+1. Update and Upgrade your machine
+    ```bash
+    $ sudo apt-get update && sudo apt-get upgrade
+    ```
+2. Install pip and dependencies
+    ```bash
+    $ sudo apt-get install python-setuptools python-dev build-essential
+    $ sudo easy_install pip
+    ```
+3. Install git
+    ```bash
+    $ sudo apt-get install git
+    ```
+4. Install sysbench
+    ```bash
+    $ sudo apt-get install sysbench
+    ```
+5. Clone the monitoring-hosts repository
+    ```bash
+    $ git clone https://github.com/bigsea-ufcg/monitoring-hosts
+    ```
+6. Access the bigsea-loadbalancer folder to install the requirements
+    ```bash
+    $ cd monitoring-hosts/
+    $ sudo pip install -r requirements.txt --no-cache-dir
+    ```
+
+Configuration
+-------------
+
+
+## Backends
+
+You can use two types of configuration, no backend (the output will be written in the output_dir),
+or use monaca (the output will be directlly published.
+
+### No backend
+`default.cfg`
 ```
 [DEFAULT]
 type=CPU
 name=sysbench
+# Full path to access the sysbench.json file that is in sample directory.
 parameters=/path/sysbench.json
 output_dir=/tmp
 backend=
 ```
 
-- Monasca backend
-
+### Monasca backend
+`sample/default_monasca.cfg`
 ```
 [DEFAULT]
 type=CPU
 name=sysbench
+# Full path to access the sysbench.json file that is in sample directory.
 parameters=/path/sysbench.json
 output_dir=/tmp
 backend=OS_MONASCA
@@ -38,8 +90,13 @@ auth_url=<@auth_url>
 monasca_api_version=v2_0
 ```
 
+## Sysbench Parameters
 
-## Usage
+You can set the `number_of_threads` and the `max_prime`parameters used by sysbench by
+editing the `sysbench.json` file located in the `sample`directory.
+
+Usage
+-----
 
 - Help command
 
@@ -106,9 +163,9 @@ optional arguments:
                         Filename with all benchmark information
 ```
 
-* Examples
+* Running
 
-```root@host:~# python monitoring/run.py start -conf sample/default.cfg -time 1800```
+```root@host:~# python monitoring/run.py start -conf sample/default_monasca.cfg -time 1800```
 
 ```root@hots:~# python monitoring/run.py stop -conf sample/default.cfg ```
 
