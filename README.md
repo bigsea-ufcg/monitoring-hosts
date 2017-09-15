@@ -121,7 +121,7 @@ optional arguments:
 
 ```ubuntu@host:~/monitoring-hosts/monitoring$ python run.py start -h```
 ```
-usage: python monitoring.py start [-h] -dir DIRECTORY -time TIME_INTERVAL
+usage: python monitoring.py start [-h] -time TIME_INTERVAL
                                   [-conf CONFIGURATION]
 
 optional arguments:
@@ -137,9 +137,9 @@ optional arguments:
 
 ```ubuntu@host1:~/monitoring-hosts/monitoring$ python run.py stop -h```
 ```
-usage: python monitoring.py stop [-h] -dir DIRECTORY [-conf CONFIGURATION]
+usage: python monitoring.py stop [-h] [-conf CONFIGURATION]
 
-Stops the daemon if it ts currently running.
+Stops the daemon if it is currently running.
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -151,7 +151,7 @@ optional arguments:
 
 ```ubuntu@host1:~/monitoring-hosts/monitoring$ python run.py restart -h```
 ```
-usage: python monitoring.py restart [-h] -dir DIRECTORY -time TIME_INTERVAL
+usage: python monitoring.py restart [-h] -time TIME_INTERVAL
                                     [-conf CONFIGURATION]
 
 optional arguments:

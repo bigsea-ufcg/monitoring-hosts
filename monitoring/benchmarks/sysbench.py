@@ -28,7 +28,6 @@ class SysbenchCPU():
         params = "--test=cpu --num-threads={0} --cpu-max-prime={1}".format(
                  self.num_threads, self.max_prime)
         if self.backend == 'OS_MONASCA':
-            monasca = MonascaMonitor(self.configuration)
             cmd = "sysbench " + params + " run"
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
             out, err = proc.communicate()
@@ -52,7 +51,11 @@ class SysbenchCPU():
                                 }
 
                             }
-                            monasca.send_metrics([metric])
+                            try:
+                                monasca = MonascaMonitor(self.configuration)
+                                monasca.send_metrics([metric])
+                            except Exception as mon_ex:
+                                print mon_ex.message
                 except Exception as e:
                     print e.message
             else:

@@ -41,7 +41,9 @@ class MonascaMonitor:
         batch_metrics = {'jsonbody': measurements}
         try:
             self.client.metrics.create(**batch_metrics)
+            return True
         except exc.HTTPException as httpex:
-            print httpex.message
+            return False
         except Exception as ex:
-            print ex.message
+
+            return False

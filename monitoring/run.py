@@ -18,22 +18,22 @@ def command_line_parser():
     start = subparsers.add_parser("start", help='Starts %(prog)s daemon')
     start.add_argument('-time', '--time_interval', help='Number of seconds \
             to wait before run the Monitoring Daemon again.(Integer)',
-                       required=True)
+                       required=False)
     start.add_argument('-conf', '--configuration', help='Filename with all \
-            benchmark information', required=False)
+            benchmark information', required=True)
 
     restart = subparsers.add_parser("restart", help='Restarts %(prog)s daemon')
     restart.add_argument('-time', '--time_interval', help='Number of seconds \
             to wait before run the Monitoring Daemon again. (Integer)',
-                         required=True)
+                         required=False)
     restart.add_argument('-conf', '--configuration', help='Filename with all \
-            benchmark information', required=False)
+            benchmark information', required=True)
 
     stop = subparsers.add_parser("stop", help='Stops %(prog)s daemon',
                                  description='Stops the daemon if it is \
                                          currently running.')
     stop.add_argument('-conf', '--configuration', help='Filename with all \
-            benchmark information', required=False)
+            benchmark information', required=True)
     return parser
 
 
@@ -49,14 +49,18 @@ def validate_cmd(arguments):
                 if not os.path.isfile(arguments.configuration):
                     message = ("Couldn't find configuration file %s" %
                                arguments.configuration)
+                    print message
                     raise Exception(message)
             else:
                 message = "Please provide a configuration file"
+                print message
                 raise Exception(message)
 
-            if hasattr(arguments, 'time_interval'):
+            if hasattr(arguments, 'time_interval') and arguments.time_interval:
                 if not arguments.time_interval.isdigit():
-                    raise Exception("time/time_interval should be integer")
+                    message = "time/time_interval should be integer"
+                    print message
+                    raise Exception(message)
                 else:
                     arguments.time_interval = float(arguments.time_interval)
             else:
@@ -64,11 +68,12 @@ def validate_cmd(arguments):
 
             return arguments
         except Exception as e:
-            print e
+            print e.message
             sys.exit(2)
     else:
         print "Unknown command"
         sys.exit(2)
+
 
 
 def main():
